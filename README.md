@@ -3,12 +3,12 @@
 ## What is this?
 
 A simple terminal interface tool to test Windows x86_64 anti-debugging techniques. Like many of our public projects this was made because we needed it to better explain
-one of our [courses](https://haxo.games/courses).
+some of our [courses](https://haxo.games/courses).
 
 ## Build
 
 All this requires is Visual Studio 2022 (minimum) and the "Desktop Development with C++" package installed. The only dependencies this project uses are the Windows API 
-and [FTXUI](https://github.com/ArthurSonzogni/FTXUI) and FTXUI is directly included within the `dependencies/` folder. I'm aware this is bad practice, but I want to keep
+and [FTXUI](https://github.com/ArthurSonzogni/FTXUI). FTXUI is directly included within the `dependencies/` folder. I'm aware this is bad practice, but I want to keep
 the build environment as simplistic and similar to what is used throughout the course as possible for beginners.
 
 ## Documentation
