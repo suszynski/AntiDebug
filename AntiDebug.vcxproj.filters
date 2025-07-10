@@ -3,4 +3,125 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="dependencies">
+      <UniqueIdentifier>{46fac51c-5ffc-4ad9-aecf-c033221d4c23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\ftxui">
+      <UniqueIdentifier>{81401377-e28e-4f4d-928d-d4c28cf68514}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\ftxui\component">
+      <UniqueIdentifier>{254dba7d-5b9d-4e67-9e32-912faf02c122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\ftxui\dom">
+      <UniqueIdentifier>{a8f6e15e-b02d-47af-8233-08b1a2dc0dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\ftxui\screen">
+      <UniqueIdentifier>{8a7a2fde-f536-4e35-96aa-a2a553fe8cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dependencies\ftxui\util">
+      <UniqueIdentifier>{c8aa43da-3e20-43ee-b92c-68ff838323a6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dependencies\include\ftxui\component\animation.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\captured_mouse.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\component.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\component_base.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\component_options.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\event.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\loop.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\mouse.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\receiver.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\screen_interactive.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\component\task.hpp">
+      <Filter>dependencies\ftxui\component</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\canvas.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\deprecated.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\direction.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\elements.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\flexbox_config.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\linear_gradient.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\node.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\requirement.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\selection.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\table.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\dom\take_any_args.hpp">
+      <Filter>dependencies\ftxui\dom</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\util\autoreset.hpp">
+      <Filter>dependencies\ftxui\util</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\util\ref.hpp">
+      <Filter>dependencies\ftxui\util</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\box.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\color.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\color_info.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\deprecated.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\image.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\pixel.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\screen.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\string.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+    <ClInclude Include="dependencies\include\ftxui\screen\terminal.hpp">
+      <Filter>dependencies\ftxui\screen</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

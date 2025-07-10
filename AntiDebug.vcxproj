@@ -103,10 +103,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ftxui-screen.lib;ftxui-dom.lib;ftxui-component.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,14 +121,52 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)dependencies\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ftxui-screen.lib;ftxui-dom.lib;ftxui-component.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dependencies\include\ftxui\component\animation.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\captured_mouse.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\component.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\component_base.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\component_options.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\event.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\loop.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\mouse.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\receiver.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\screen_interactive.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\component\task.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\canvas.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\deprecated.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\direction.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\elements.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\flexbox_config.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\linear_gradient.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\node.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\requirement.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\selection.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\table.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\dom\take_any_args.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\box.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\color.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\color_info.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\deprecated.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\image.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\pixel.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\screen.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\string.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\screen\terminal.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\util\autoreset.hpp" />
+    <ClInclude Include="dependencies\include\ftxui\util\ref.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
