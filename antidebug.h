@@ -14,7 +14,7 @@ namespace AntiDebug
 	// [SECTION] Defines
 	//
 
-	constexpr int OPTIONS_COUNT{ 5 };
+	constexpr int OPTIONS_COUNT{ 6 };
 
 	//
 	// [SECTION] Types
