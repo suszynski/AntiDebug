@@ -52,7 +52,7 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
         std::string detection_text("Debugging is currently ");
 
         if (is_detected)
-            detection_text += "detected " + std::to_string(detections_count) + (detections_count > 1 ? "times." : " time."); // needs to say times
+            detection_text += "detected " + std::to_string(detections_count) + (detections_count > 1 ? " times." : " time."); // needs to say times
         else
             detection_text += "not detected.";
 
