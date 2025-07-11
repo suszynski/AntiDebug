@@ -61,3 +61,12 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOpti
 	else
 		option.detected = false;
 }
+
+void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option)
+{
+	HANDLE debug_object{};
+	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), 30, &debug_object, sizeof(debug_object), nullptr)) && debug_object != 0)
+		option.detected = true;
+	else
+		option.detected = false;
+}

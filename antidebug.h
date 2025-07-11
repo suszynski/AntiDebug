@@ -48,4 +48,5 @@ namespace AntiDebug
 	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
 }
