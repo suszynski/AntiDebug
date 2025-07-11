@@ -37,7 +37,7 @@ Now to integrate the detection head into `main.cpp`, locate `options` inside of 
 ```c++
 AntiDebugOptions options{
 	AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
-	AntiDebugOption("MyDetectionName", true, callbackMyDetectionName), // <-- Example integration
+	AntiDebugOption("MyDetectionName", true, callbackMyDetectionName), // <- Example integration
 };
 ```
 The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback.

@@ -60,7 +60,7 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
             text("AntiDebug - Haxo Games Inc.") | bold | center,
             text(detection_text) | (is_detected ? color(Color::Red) : color(Color::Default)) | center,
             separator(),
-            vbox(checkbox_elements),
+            vbox(checkbox_elements) | flex | vscroll_indicator | frame,
             separator(),
             text("Use arrow keys to navigate, Space to toggle, Q to quit") | dim
         }) | border;
