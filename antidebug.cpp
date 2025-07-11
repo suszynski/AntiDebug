@@ -16,7 +16,10 @@ void AntiDebug::callbackBeingDebugged(AntiDebugOption& option)
 
 void AntiDebug::callbackCheckRemoteDebuggerPresent(AntiDebugOption& option)
 {
-	// TODO
+	BOOL is_debugged{};
+	CheckRemoteDebuggerPresent(GetCurrentProcess(), &is_debugged);
+
+	option.detected = is_debugged;
 }
 
 void AntiDebug::callbackNtQueryInformationProcess(AntiDebugOption& option)
