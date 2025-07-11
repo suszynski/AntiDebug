@@ -123,5 +123,6 @@
     <ClInclude Include="dependencies\include\ftxui\screen\terminal.hpp">
       <Filter>dependencies\ftxui\screen</Filter>
     </ClInclude>
+    <ClInclude Include="antidebug.h" />
   </ItemGroup>
 </Project>

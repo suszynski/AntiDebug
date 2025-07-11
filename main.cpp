@@ -8,24 +8,7 @@
 #include <ftxui/component/screen_interactive.hpp>
 #include <ftxui/dom/elements.hpp>
 
-//
-// [SECTION] Types
-//
-
-struct AntiDebugOption
-{
-	std::string name;
-    std::atomic<bool> enabled{ true };
-    std::atomic<bool> detected{ false };
-	ftxui::Component* p_button;
-
-	AntiDebugOption(const std::string& n, bool e = false, bool d = false)
-		: name(n), enabled(e), detected(d), p_button(nullptr)
-	{}
-};
-
-#define ANTIDBG_OPTS_COUNT 4
-using AntiDebugOptions = std::array<AntiDebugOption, ANTIDBG_OPTS_COUNT>;
+#include "antidebug.h"
 
 //
 // [SECTION] Defines
@@ -37,7 +20,7 @@ static std::atomic<bool> running{true};
 // [SECTION] Functions
 //
 
-void uiRoutine(AntiDebugOptions& options)
+void uiRoutine(AntiDebug::AntiDebugOptions& options)
 {
     using namespace ftxui;
 
@@ -56,6 +39,7 @@ void uiRoutine(AntiDebugOptions& options)
 
     auto checkbox_container{ Container::Vertical(checkboxes) };
 
+    auto screen{ ScreenInteractive::Fullscreen() };
     auto component = Renderer(checkbox_container, [&] {
         for (int i{}; i < options.size(); i++)
             options[i].enabled.store(checkbox_states[i]);
@@ -85,26 +69,29 @@ void uiRoutine(AntiDebugOptions& options)
         if (event == Event::Character('q') || event == Event::Character('Q')) 
         {
             running = false;
+            screen.ExitLoopClosure()();
             return true;
         }
 
         return false;
     });
 
-    auto screen{ ScreenInteractive::Fullscreen() };
     screen.Loop(component);
 }
 
 int main()
 {
+    using namespace AntiDebug;
+
 	AntiDebugOptions options{
-		AntiDebugOption("IsDebuggerPresent", true),
-        AntiDebugOption("BeingDebugged", true),
-        AntiDebugOption("CheckRemoteDebuggerPresent", true),
-        AntiDebugOption("NtQueryInformationProcess", true),
+		AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+        AntiDebugOption("BeingDebugged", true, callbackIsDebuggerPresent),
+        AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackIsDebuggerPresent),
+        AntiDebugOption("NtQueryInformationProcess", true, callbackIsDebuggerPresent),
 	};
 
     std::thread ui_thread([&options] { uiRoutine(options); });
+    ui_thread.join();
 
     while (running)
     {

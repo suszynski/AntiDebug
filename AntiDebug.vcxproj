@@ -134,6 +134,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="antidebug.h" />
     <ClInclude Include="dependencies\include\ftxui\component\animation.hpp" />
     <ClInclude Include="dependencies\include\ftxui\component\captured_mouse.hpp" />
     <ClInclude Include="dependencies\include\ftxui\component\component.hpp" />
