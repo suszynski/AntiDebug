@@ -12,8 +12,8 @@ int main()
     AntiDebugOptions options{
         AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
-        AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackIsDebuggerPresent),
-        AntiDebugOption("NtQueryInformationProcess", true, callbackIsDebuggerPresent),
+        AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
+        AntiDebugOption("NtQueryInformationProcess", true, callbackNtQueryInformationProcess),
     };
 
     SetConsoleTitleA("AntiDebug");
