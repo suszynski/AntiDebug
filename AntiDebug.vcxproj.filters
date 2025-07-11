@@ -124,5 +124,6 @@
       <Filter>dependencies\ftxui\screen</Filter>
     </ClInclude>
     <ClInclude Include="antidebug.h" />
+    <ClInclude Include="ui.h" />
   </ItemGroup>
 </Project>
