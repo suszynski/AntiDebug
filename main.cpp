@@ -11,7 +11,7 @@ int main()
 
     AntiDebugOptions options{
         AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
-        AntiDebugOption("BeingDebugged", true, callbackIsDebuggerPresent),
+        AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
         AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("NtQueryInformationProcess", true, callbackIsDebuggerPresent),
     };

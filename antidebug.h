@@ -43,4 +43,7 @@ namespace AntiDebug
 	//
 
 	void callbackIsDebuggerPresent(AntiDebugOption& option);
+	void callbackBeingDebugged(AntiDebugOption& option);
+	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
+	void callbackNtQueryInformationProcess(AntiDebugOption& option);
 }
