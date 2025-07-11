@@ -42,7 +42,7 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
             auto status{ options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
             checkbox_elements.push_back(
                 hbox({
-                    checkboxes[i]->Render() | (options[i].detected ? color(Color::Red) : color(Color::Default)),
+                    checkboxes[i]->Render(),
                     status
                 })
             );
