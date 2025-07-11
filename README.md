@@ -58,7 +58,7 @@ minimum of common sense would not invoke it directly, and yet most programs out 
 
 ### `BeingDebugged`
 
-This technique directly reads the `BeingDebugged` member of the thread environment block (TEB) for the current process. If true, it is being debugged. Can be bypassed by
+This technique directly reads the `BeingDebugged` member of the process environment block (PEB) for the current process. If true, it is being debugged. Can be bypassed by
 simply setting the value to 0.
 
 ### `CheckRemoteDebuggerPresent`
