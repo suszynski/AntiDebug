@@ -5,7 +5,8 @@
 #include <string>
 
 #include <ftxui/component/component.hpp>
-#include <Windows.h>
+#include <windows.h>
+#include <winternl.h>
 
 namespace AntiDebug
 {
@@ -13,7 +14,7 @@ namespace AntiDebug
 	// [SECTION] Defines
 	//
 
-	constexpr int OPTIONS_COUNT{ 4 };
+	constexpr int OPTIONS_COUNT{ 6 };
 
 	//
 	// [SECTION] Types
@@ -45,5 +46,7 @@ namespace AntiDebug
 	void callbackIsDebuggerPresent(AntiDebugOption& option);
 	void callbackBeingDebugged(AntiDebugOption& option);
 	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
-	void callbackNtQueryInformationProcess(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
 }

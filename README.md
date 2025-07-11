@@ -50,6 +50,28 @@ magic fuckery I figured out for the FTXUI checkboxes atomic state logic to be ha
 In this section I will do my best to document the different anti-debugging techniques used, and maybe add extra details like how they can be avoided etc. For any further
 information please join [our Discord server](https://discord.gg/f6AbaCATMg).
 
+### `IsDebuggerPresent`
+
+`IsDebuggerPresent` is a Windows API function that simply accesses the `BeingDebugged` boolean from the thread environment block (TEB) of the current process. This value
+is true when the process is being debugged. This can be bypassed by simply setting `BeingDebugged` to 0. Patching `IsDebuggerPresent` may seem idiotic since anyone with a
+minimum of common sense would not invoke it directly, and yet most programs out there do.
+
+### `BeingDebugged`
+
+This technique directly reads the `BeingDebugged` member of the thread environment block (TEB) for the current process. If true, it is being debugged. Can be bypassed by
+simply setting the value to 0.
+
+### `CheckRemoteDebuggerPresent`
+
+`CheckRemoteDebuggerPresent` is a Windows API function which which calls `NtQueryInformationProcess` for the `ProcessDebugPort` value under the hood. If this value is 0
+no debugger is attached, otherwise it sets the pointer to the boolean it was passed to true. This can be bypassed by hooking `NtQueryInformationProcess` or the function
+itself. `ProcessDebugPort` being in the `EPROCESS` structure it is immune to usermode shenanigans.
+
+### `NtQueryInformationProcess`
+
+`NtQueryInformationProcess` can be used to get `ProcessDebugPort` which can indicate if a debugger is present. It can also query a few values in an undocumented way such
+as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDebugHandle`).
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but

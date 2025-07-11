@@ -1,6 +1,7 @@
 ﻿#include <thread>
 #include <chrono>
 #include <array>
+#include <iostream>
 
 #include "ui.h"
 #include "antidebug.h"
@@ -13,10 +14,13 @@ int main()
         AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
         AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
-        AntiDebugOption("NtQueryInformationProcess", true, callbackNtQueryInformationProcess),
+        AntiDebugOption("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
+        AntiDebugOption("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
+        AntiDebugOption("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
     };
 
     SetConsoleTitleA("AntiDebug");
+
     std::thread ui_thread([&options] { UI::routine(options); });
 
     while (UI::running)
