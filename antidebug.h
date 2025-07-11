@@ -14,7 +14,7 @@ namespace AntiDebug
 	// [SECTION] Defines
 	//
 
-	constexpr int OPTIONS_COUNT{ 4 };
+	constexpr int OPTIONS_COUNT{ 5 };
 
 	//
 	// [SECTION] Types
@@ -47,4 +47,5 @@ namespace AntiDebug
 	void callbackBeingDebugged(AntiDebugOption& option);
 	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 }

@@ -15,6 +15,7 @@ int main()
         AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
         AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
         AntiDebugOption("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
+        AntiDebugOption("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
     };
 
     SetConsoleTitleA("AntiDebug");
