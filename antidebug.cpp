@@ -1,3 +1,5 @@
+#include <winternl.h>
+
 #include "antidebug.h"
 
 //
@@ -11,7 +13,9 @@ void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 
 void AntiDebug::callbackBeingDebugged(AntiDebugOption& option)
 {
-	// TODO
+	_PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock };
+
+	option.detected = p_peb->BeingDebugged;
 }
 
 void AntiDebug::callbackCheckRemoteDebuggerPresent(AntiDebugOption& option)

@@ -5,7 +5,7 @@
 #include <string>
 
 #include <ftxui/component/component.hpp>
-#include <Windows.h>
+#include <windows.h>
 
 namespace AntiDebug
 {
