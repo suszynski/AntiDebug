@@ -67,6 +67,11 @@ simply setting the value to 0.
 no debugger is attached, otherwise it sets the pointer to the boolean it was passed to true. This can be bypassed by hooking `NtQueryInformationProcess` or the function
 itself. `ProcessDebugPort` being in the `EPROCESS` structure it is immune to usermode shenanigans.
 
+### `NtQueryInformationProcess`
+
+`NtQueryInformationProcess` can be used to get `ProcessDebugPort` which can indicate if a debugger is present. It can also query a few values in an undocumented way such
+as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDebugHandle`).
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but
