@@ -58,7 +58,7 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
 
         return vbox({
             text("AntiDebug - Haxo Games Inc.") | bold | center,
-            text(detection_text) | (is_detected ? color(Color::Red) : color(Color::Default)) | center,
+            text(detection_text) | (is_detected ? color(Color::Red) : color(Color::Green)) | center,
             separator(),
             vbox(checkbox_elements) | flex | vscroll_indicator | frame,
             separator(),
@@ -80,7 +80,7 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
     screen.Loop(component);
 }
 
-ftxui::ScreenInteractive& UI::getScreen()
+void UI::triggerUpdate()
 {
-    return screen;
+    screen.PostEvent(ftxui::Event::Custom);
 }

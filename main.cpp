@@ -30,7 +30,7 @@ int main()
                 bool is_detected{ option.detected };
 
                 if (is_detected && !was_detected || !is_detected && was_detected)
-                    UI::getScreen().PostEvent(ftxui::Event::Custom);
+                    UI::triggerUpdate();
 
                 option.was_enabled = true;
             }
@@ -39,7 +39,7 @@ int main()
                 /* Black magic to ensure UI update when disables */
                 if (option.was_enabled)
                 {
-                    UI::getScreen().PostEvent(ftxui::Event::Custom);
+                    UI::triggerUpdate();
                     option.was_enabled = false;
                 }
 

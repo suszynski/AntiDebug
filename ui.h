@@ -19,6 +19,5 @@ namespace UI
     //
 
     void routine(AntiDebug::AntiDebugOptions& options);
-
-    ftxui::ScreenInteractive& getScreen();
+    void triggerUpdate();
 }
