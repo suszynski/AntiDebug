@@ -27,6 +27,7 @@ namespace AntiDebug
 		std::string name;
 		std::atomic<bool> enabled{ true };
 		std::atomic<bool> detected{ false };
+		bool was_enabled{ false };
 		AntiDebugCallback callback;
 		ftxui::Component* p_button;
 

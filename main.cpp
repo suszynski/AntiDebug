@@ -14,7 +14,7 @@ int main()
         AntiDebugOption("BeingDebugged", true, callbackIsDebuggerPresent),
         AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("NtQueryInformationProcess", true, callbackIsDebuggerPresent),
-	};
+    };
 
     SetConsoleTitleA("AntiDebug");
     std::thread ui_thread([&options] { UI::routine(options); });
@@ -31,9 +31,20 @@ int main()
 
                 if (is_detected && !was_detected || !is_detected && was_detected)
                     UI::getScreen().PostEvent(ftxui::Event::Custom);
+
+                option.was_enabled = true;
             }
             else
+            {
+                /* Black magic to ensure UI update when disables */
+                if (option.was_enabled)
+                {
+                    UI::getScreen().PostEvent(ftxui::Event::Custom);
+                    option.was_enabled = false;
+                }
+
                 option.detected = false;
+            }
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(25));
