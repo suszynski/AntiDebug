@@ -2,6 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ui.cpp">
+      <Filter>ui</Filter>
+    </ClCompile>
+    <ClCompile Include="antidebug.cpp">
+      <Filter>antidebug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="dependencies">
@@ -21,6 +27,12 @@
     </Filter>
     <Filter Include="dependencies\ftxui\util">
       <UniqueIdentifier>{c8aa43da-3e20-43ee-b92c-68ff838323a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{b60081f2-9cec-4113-a702-06507894c471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="antidebug">
+      <UniqueIdentifier>{69ff0b6a-d03b-4191-a3da-ea8ab8b2a099}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -123,7 +135,11 @@
     <ClInclude Include="dependencies\include\ftxui\screen\terminal.hpp">
       <Filter>dependencies\ftxui\screen</Filter>
     </ClInclude>
-    <ClInclude Include="antidebug.h" />
-    <ClInclude Include="ui.h" />
+    <ClInclude Include="ui.h">
+      <Filter>ui</Filter>
+    </ClInclude>
+    <ClInclude Include="antidebug.h">
+      <Filter>antidebug</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

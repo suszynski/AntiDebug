@@ -9,8 +9,8 @@ int main()
 {
     using namespace AntiDebug;
 
-	AntiDebugOptions options{
-		AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+    AntiDebugOptions options{
+        AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("BeingDebugged", true, callbackIsDebuggerPresent),
         AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("NtQueryInformationProcess", true, callbackIsDebuggerPresent),
@@ -30,7 +30,7 @@ int main()
                 bool is_detected{ option.detected };
 
                 if (is_detected && !was_detected || !is_detected && was_detected)
-                    UI::screen.PostEvent(ftxui::Event::Custom);
+                    UI::getScreen().PostEvent(ftxui::Event::Custom);
             }
             else
                 option.detected = false;

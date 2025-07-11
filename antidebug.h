@@ -10,13 +10,16 @@
 namespace AntiDebug
 {
 	//
+	// [SECTION] Defines
+	//
+
+	constexpr int OPTIONS_COUNT{ 4 };
+
+	//
 	// [SECTION] Types
 	//
 
-	#define ANTIDBG_OPTS_COUNT 4
-
 	struct AntiDebugOption;
-	using AntiDebugOptions = std::array<AntiDebugOption, ANTIDBG_OPTS_COUNT>;
 	using AntiDebugCallback = std::function<void(AntiDebugOption&)>;
 
 	struct AntiDebugOption
@@ -32,12 +35,11 @@ namespace AntiDebug
 		{}
 	};
 
+	using AntiDebugOptions = std::array<AntiDebugOption, OPTIONS_COUNT>;
+
 	//
-	// [SECTION] Callbacks
+	// [SECTION] Functions
 	//
 
-	void callbackIsDebuggerPresent(AntiDebugOption& option)
-	{
-		option.detected = IsDebuggerPresent();
-	}
+	void callbackIsDebuggerPresent(AntiDebugOption& option);
 }
