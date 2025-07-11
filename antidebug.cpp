@@ -1,10 +1,28 @@
-#include <winternl.h>
-
 #include "antidebug.h"
+
+//
+// [SECTION] Types
+//
+
+using TNtQueryInformationProcess = NTSTATUS(WINAPI*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
 
 //
 // [SECTION] Functions
 //
+
+TNtQueryInformationProcess getNtQueryInformationProcess() 
+{
+	static TNtQueryInformationProcess nt_query{};
+
+	if (!nt_query) 
+	{
+		HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
+		if (hNtdll) 
+			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(hNtdll, "NtQueryInformationProcess"));
+	}
+
+	return nt_query;
+}
 
 void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 {
@@ -26,7 +44,11 @@ void AntiDebug::callbackCheckRemoteDebuggerPresent(AntiDebugOption& option)
 	option.detected = is_debugged;
 }
 
-void AntiDebug::callbackNtQueryInformationProcess(AntiDebugOption& option)
+void AntiDebug::callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option)
 {
-	// TODO
+	DWORD_PTR debug_port{};
+	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), ProcessDebugPort, &debug_port, sizeof(debug_port), nullptr)) && debug_port != 0)
+		option.detected = true;
+	else
+		option.detected = false;
 }

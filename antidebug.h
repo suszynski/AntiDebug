@@ -6,6 +6,7 @@
 
 #include <ftxui/component/component.hpp>
 #include <windows.h>
+#include <winternl.h>
 
 namespace AntiDebug
 {
@@ -45,5 +46,5 @@ namespace AntiDebug
 	void callbackIsDebuggerPresent(AntiDebugOption& option);
 	void callbackBeingDebugged(AntiDebugOption& option);
 	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
-	void callbackNtQueryInformationProcess(AntiDebugOption& option);
+	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 }
