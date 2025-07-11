@@ -83,6 +83,8 @@ int main()
 {
     using namespace AntiDebug;
 
+    SetConsoleTitleA("AntiDebug");
+
 	AntiDebugOptions options{
 		AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
         AntiDebugOption("BeingDebugged", true, callbackIsDebuggerPresent),
