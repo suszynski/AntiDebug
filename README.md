@@ -36,7 +36,7 @@ value as you wish here. Disable logic and UI events are already handled in the `
 Now to integrate the detection head into `main.cpp`, locate `options` inside of the `main` function, and add a new member in its initializer list like so:
 ```c++
 AntiDebugOptions options{
-    AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+	AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
 	AntiDebugOption("MyDetectionName", true, callbackMyDetectionName), // <-- Example integration
 };
 ```
