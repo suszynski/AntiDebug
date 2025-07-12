@@ -35,7 +35,7 @@ void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 
 void AntiDebug::callbackBeingDebugged(AntiDebugOption& option)
 {
-	PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock };
+	PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock }; // You can access the TEB from the file segment, and then the offset to the PEB pointer is 0x30
 
 	option.detected = p_peb->BeingDebugged;
 }
