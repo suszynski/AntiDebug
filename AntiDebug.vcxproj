@@ -109,7 +109,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ftxui-screen.lib;ftxui-dom.lib;ftxui-component.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ftxui-screen-debug.lib;ftxui-dom-debug.lib;ftxui-component-debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -127,7 +127,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)dependencies\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>ftxui-screen.lib;ftxui-dom.lib;ftxui-component.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>ftxui-screen-release.lib;ftxui-dom-release.lib;ftxui-component-release.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -10,14 +10,14 @@ using TNtQueryInformationProcess = NTSTATUS(WINAPI*)(HANDLE ProcessHandle, DWORD
 // [SECTION] Functions
 //
 
-TNtQueryInformationProcess getNtQueryInformationProcess() 
+TNtQueryInformationProcess getNtQueryInformationProcess()
 {
 	static TNtQueryInformationProcess nt_query{};
 
-	if (!nt_query) 
+	if (!nt_query)
 	{
 		HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
-		if (hNtdll) 
+		if (hNtdll)
 			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(hNtdll, "NtQueryInformationProcess"));
 	}
 
@@ -31,7 +31,7 @@ void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 
 void AntiDebug::callbackBeingDebugged(AntiDebugOption& option)
 {
-	_PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock };
+	PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock };
 
 	option.detected = p_peb->BeingDebugged;
 }
