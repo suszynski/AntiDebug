@@ -14,7 +14,7 @@ namespace AntiDebug
 	// [SECTION] Defines
 	//
 
-	constexpr int OPTIONS_COUNT{ 6 };
+	constexpr int OPTIONS_COUNT{ 8 };
 
 	//
 	// [SECTION] Types
@@ -49,4 +49,6 @@ namespace AntiDebug
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
+	void callbackFindWindowByTitleAndClass(AntiDebugOption& option);
+	void callbackGetThreadContext(AntiDebugOption& option);
 }
