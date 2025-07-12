@@ -54,5 +54,7 @@ int main()
         std::this_thread::sleep_for(std::chrono::milliseconds(25));
     }
 
+    ui_thread.join();
+
 	return 0;
 }

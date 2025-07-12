@@ -29,13 +29,12 @@ void UI::routine(AntiDebug::AntiDebugOptions& options)
 
     auto checkbox_container{ Container::Vertical(checkboxes) };
     auto component = Renderer(checkbox_container, [&] {
-        for (int i{}; i < options.size(); i++)
-            options[i].enabled.store(checkbox_states[i]);
-
         int detections_count{};
         Elements checkbox_elements;
         for (int i{}; i < options.size(); i++)
         {
+            options[i].enabled.store(checkbox_states[i]);
+
             if (options[i].detected)
                 detections_count++;
 
