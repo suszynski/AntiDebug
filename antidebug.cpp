@@ -84,11 +84,8 @@ void AntiDebug::callbackFindWindowByTitleAndClass(AntiDebugOption& option)
 		HWND hwnd = nullptr;
 		char windowText[256];
 		while ((hwnd = FindWindowExA(nullptr, hwnd, nullptr, nullptr)) != nullptr)
-		{
-			if (GetWindowTextA(hwnd, windowText, sizeof(windowText)) > 0 && 
-				strstr(windowText, substring) != nullptr)
+			if (GetWindowTextA(hwnd, windowText, sizeof(windowText)) > 0 && strstr(windowText, substring) != nullptr)
 				return true;
-		}
 		return false;
 	};
 
