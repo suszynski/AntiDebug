@@ -74,7 +74,7 @@ as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDeb
 
 ### `FindWindowByTitleAndClass`
 
-`FindWindowByTitleAndClass` searches for debugging tools by enumerating windows and checking their titles and classes. It uses `FindWindowA` from Windows API to detect specific window classes like "OLLYDBG" and "WinDbgFrameClass", combined with a custom function that searches for substrings in window titles such as "Cheat Engine" or "Process Hacker". The substring matching provides flexibility to detect multiple versions of tools even when version numbers are appended to titles. This can be bypassed by hiding debugger windows, changing window titles and classes, hooking `FindWindowA`/`FindWindowExA` functions.
+`FindWindowByTitleAndClass` searches for debugging tools by enumerating windows and checking their titles and classes. It uses `FindWindowA` from Windows API to detect specific window classes like "OLLYDBG" and "WinDbgFrameClass", combined with a custom lambda function `findWindowByTitle` that searches for substrings in window titles such as "Cheat Engine" or "Process Hacker". The substring matching provides flexibility to detect multiple versions of tools even when version numbers are appended to titles. This can be bypassed by hiding debugger windows, changing window titles and classes, hooking `FindWindowA`/`FindWindowExA` functions.
 
 ### `GetThreadContext`
 
