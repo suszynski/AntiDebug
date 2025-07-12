@@ -80,6 +80,7 @@ there are a few things you need to keep in mind:
 2. snake_case for variable names, PascalCase for namespaces and structures and camelCase for methods and function names (there might be more specefics so please just
 base your style on the already existing code).
 3. Make an issue first, and specify your intent to address said issue.
+4. When making a branch give it a meaningful name like `feature/name_of_feature` for example.
 
 ## License
 
