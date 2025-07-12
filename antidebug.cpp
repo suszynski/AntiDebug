@@ -7,7 +7,7 @@
 using TNtQueryInformationProcess = NTSTATUS(WINAPI*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
 
 //
-// [SECTION] Functions
+// [SECTION] Functions (Utils)
 //
 
 TNtQueryInformationProcess getNtQueryInformationProcess()
@@ -23,6 +23,10 @@ TNtQueryInformationProcess getNtQueryInformationProcess()
 
 	return nt_query;
 }
+
+//
+// [SECTION] Functions (Callbacks)
+//
 
 void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 {
