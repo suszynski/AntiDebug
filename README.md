@@ -72,6 +72,14 @@ itself. `ProcessDebugPort` being in the `EPROCESS` structure it is immune to use
 `NtQueryInformationProcess` can be used to get `ProcessDebugPort` which can indicate if a debugger is present. It can also query a few values in an undocumented way such
 as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDebugHandle`).
 
+### `FindWindowByTitleAndClass`
+
+`FindWindowByTitleAndClass` searches for debugging tools by enumerating windows and checking their titles and classes. It uses `FindWindowA` from Windows API to detect specific window classes like "OLLYDBG" and "WinDbgFrameClass", combined with a custom function that searches for substrings in window titles such as "Cheat Engine" or "Process Hacker". The substring matching provides flexibility to detect multiple versions of tools even when version numbers are appended to titles. This can be bypassed by hiding debugger windows, changing window titles and classes, hooking `FindWindowA`/`FindWindowExA` functions.
+
+### `GetThreadContext`
+
+`GetThreadContext` is a Windows API function that retrieves the current thread context, including hardware debug registers (Dr0, Dr1, Dr2, Dr3). When hardware breakpoints are set by debuggers, the corresponding debug register contains the breakpoint address. This technique checks if any of these registers contain non-zero values, indicating active hardware breakpoints. Hardware breakpoints are preferred by advanced debuggers since they don't modify process memory. This can be bypassed by clearing debug registers before detection, hooking `GetThreadContext` to return clean registers.
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but

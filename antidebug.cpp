@@ -74,3 +74,38 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOpt
 	else
 		option.detected = false;
 }
+
+void AntiDebug::callbackFindWindowByTitleAndClass(AntiDebugOption& option)
+{
+	static const char* titles[] = { "Cheat Engine", "Process Hacker", "x64dbg", "x32dbg", "IDA Pro", "Ghidra", "Binary Ninja", nullptr };
+	static const char* classes[] = { "OLLYDBG", "WinDbgFrameClass", "ProcessHacker", "PROCMON_WINDOW_CLASS", nullptr };
+
+	bool (*findWindowByTitle)(const char*) = [](const char* substring) -> bool {
+		HWND hwnd = nullptr;
+		char windowText[256];
+		while ((hwnd = FindWindowExA(nullptr, hwnd, nullptr, nullptr)) != nullptr)
+		{
+			if (GetWindowTextA(hwnd, windowText, sizeof(windowText)) > 0 && 
+				strstr(windowText, substring) != nullptr)
+				return true;
+		}
+		return false;
+	};
+
+	for (int i = 0; titles[i]; i++)
+		if (findWindowByTitle(titles[i])) { option.detected = true; return; }
+
+	for (int i = 0; classes[i]; i++)
+		if (FindWindowA(classes[i], nullptr)) { option.detected = true; return; }
+
+	option.detected = false;
+}
+
+/* checks for hardware breakpoints */
+void AntiDebug::callbackGetThreadContext(AntiDebugOption& option)
+{
+	CONTEXT ctx{};
+	ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
+	option.detected = GetThreadContext(GetCurrentThread(), &ctx) && 
+	                  (ctx.Dr0 || ctx.Dr1 || ctx.Dr2 || ctx.Dr3);
+}
