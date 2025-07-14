@@ -159,5 +159,5 @@ void AntiDebug::callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOp
 	getNtQuerySystemInformation()((SYSTEM_INFORMATION_CLASS)0x95, &debugger_info, sizeof(debugger_info), &len);
 
 	// This is when detection descriptions would be useful: https://github.com/haxo-games/AntiDebug/issues/7
-	option.detected = debugger_info.DebuggerAllowed || debugger_info.DebuggerEnabled || debugger_info.DebuggerPresent;
+	option.detected = debugger_info.DebuggerEnabled || debugger_info.DebuggerPresent;
 }
