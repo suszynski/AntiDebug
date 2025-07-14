@@ -72,9 +72,16 @@ itself. `ProcessDebugPort` being in the `EPROCESS` structure it is immune to use
 `NtQueryInformationProcess` can be used to get `ProcessDebugPort` which can indicate if a debugger is present. It can also query a few values in an undocumented way such
 as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDebugHandle`).
 
-### `FindWindowByTitleAndClass`
+### `FindWindowByTitle`
 
-`FindWindowByTitleAndClass` searches for debugging tools by enumerating windows and checking their titles and classes. It uses `FindWindowA` from Windows API to detect specific window classes like "OLLYDBG" and "WinDbgFrameClass", combined with a custom lambda function `findWindowByTitle` that searches for substrings in window titles such as "Cheat Engine" or "Process Hacker". The substring matching provides flexibility to detect multiple versions of tools even when version numbers are appended to titles. This can be bypassed by hiding debugger windows, changing window titles and classes, hooking `FindWindowA`/`FindWindowExA` functions.
+Searches for debugging tools by enumerating windows and checking their titles. It searches for substrings in window titles such as "Cheat Engine" or "Process Hacker". 
+The substring matching provides flexibility to detect multiple versions of tools even when version numbers are appended to titles. This can be bypassed by hiding debugger 
+windows, changing window titles and hooking `FindWindowExA` functions.
+
+### `FindWindowByClass`
+
+Searches for debugging tools by enumerating windows and checking their classes. It uses `FindWindowA` from Windows API to detect specific window classes like "OLLYDBG" and "WinDbgFrameClass", 
+This can be bypassed by hiding debugger windows, changing window classes and hooking `FindWindowA`/`FindWindowExA` functions.
 
 ### `GetThreadContext`
 
@@ -93,7 +100,6 @@ typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX
 ```
 `DebuggerAllowed` is true when a kernel debugger is allowed on the system. This will usually become true when the system gets a debugger attached to it. `KernelDebuggerEnabled` will
 be true if the kernel was initialized with debugging enabled. `DebuggerPresent` is true when there currently is a debugger attached to the system.
-
 
 ## Contributing
 

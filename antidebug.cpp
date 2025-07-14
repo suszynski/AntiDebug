@@ -155,7 +155,7 @@ void AntiDebug::callbackFindWindowByClass(AntiDebugOption& option)
 	option.detected = false;
 }
 
-// checks for hardware breakpoints
+// Checks for hardware breakpoints (this one seems unreliable)
 void AntiDebug::callbackGetThreadContext(AntiDebugOption& option)
 {
 	CONTEXT ctx{};
