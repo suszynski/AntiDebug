@@ -18,6 +18,6 @@ namespace UI
     // [SECTION] Functions
     //
 
-    void routine(AntiDebug::AntiDebugOptions& options);
+    void routine();
     void triggerUpdate();
 }
