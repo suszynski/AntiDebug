@@ -111,6 +111,11 @@ base your style on the already existing code).
 3. Make an issue first, and specify your intent to address said issue.
 4. When making a branch give it a meaningful name like `feature/name_of_feature` for example.
 
+## Special thanks
+
+Thank you to all who contributed to the project already and thank you to [vergiliusproject.com](https://www.vergiliusproject.com/) for documenting undocumented windows structures
+and [anti-debug.checkpoint.com](https://anti-debug.checkpoint.com/) for documenting many anti-debugging tricks.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
