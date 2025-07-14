@@ -16,9 +16,9 @@ TNtQueryInformationProcess getNtQueryInformationProcess()
 
 	if (!nt_query)
 	{
-		HMODULE hNtdll = GetModuleHandleA("ntdll.dll");
-		if (hNtdll)
-			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(hNtdll, "NtQueryInformationProcess"));
+		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
+		if (h_ntdll)
+			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(h_ntdll, "NtQueryInformationProcess"));
 	}
 
 	return nt_query;

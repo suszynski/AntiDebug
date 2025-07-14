@@ -6,7 +6,7 @@
 // [SECTION] Variables
 //
 
-static auto screen{ ftxui::ScreenInteractive::Fullscreen() };
+static ftxui::ScreenInteractive* p_screen{};
 
 //
 // [SECTION] Functions
@@ -16,7 +16,10 @@ void UI::routine()
 {
     using namespace ftxui;
 
+    auto screen{ ftxui::ScreenInteractive::Fullscreen() };
     std::vector<Component> checkboxes;
+
+    p_screen = &screen;
 
     /* Lock guard scope */
     {
@@ -27,32 +30,29 @@ void UI::routine()
 
     auto checkbox_container{ Container::Vertical(checkboxes) };
     auto component = Renderer(checkbox_container, [&] {
+        std::lock_guard<std::mutex> guard(AntiDebug::options_mutex);
         int detections_count{};
         Elements checkbox_elements;
 
-        /* Lock guard scope */
+        for (int i{}; i < AntiDebug::options.size(); i++)
         {
-            std::lock_guard<std::mutex> guard(AntiDebug::options_mutex);
-            for (int i{}; i < AntiDebug::options.size(); i++)
-            {
-                if (AntiDebug::options[i].detected)
-                    detections_count++;
+            if (AntiDebug::options[i].detected)
+                detections_count++;
 
-                auto status{ AntiDebug::options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
-                checkbox_elements.push_back(
-                    hbox({
-                        checkboxes[i]->Render(),
-                        status
-                        })
-                );
-            }
+            auto status{ AntiDebug::options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
+            checkbox_elements.push_back(
+                hbox({
+                    checkboxes[i]->Render(),
+                    status
+                })
+            );
         }
 
         bool is_detected{ detections_count > 0 };
         std::string detection_text("Debugging is currently ");
 
         if (is_detected)
-            detection_text += "detected " + std::to_string(detections_count) + (detections_count > 1 ? " times." : " time."); // needs to say times
+            detection_text += "detected " + std::to_string(detections_count) + (detections_count > 1 ? " times." : " time.");
         else
             detection_text += "not detected.";
 
@@ -70,7 +70,7 @@ void UI::routine()
         if (event == Event::Character('q') || event == Event::Character('Q'))
         {
             running = false;
-            screen.ExitLoopClosure()();
+            screen.Exit();
             return true;
         }
 
@@ -82,5 +82,6 @@ void UI::routine()
 
 void UI::triggerUpdate()
 {
-    screen.PostEvent(ftxui::Event::Custom);
+    if (p_screen != nullptr)
+        p_screen->PostEvent(ftxui::Event::Custom);
 }

@@ -24,10 +24,9 @@ namespace AntiDebug
 		bool detected;
 		bool was_enabled;
 		AntiDebugCallback callback;
-		ftxui::Component* p_button;
 
 		AntiDebugOption(const std::string& n, bool e, AntiDebugCallback callback)
-			: name(n), enabled(e), callback(callback), detected(false), p_button(nullptr), was_enabled(e)
+			: name(n), enabled(e), callback(callback), detected(false), was_enabled(e)
 		{}
 	};
 
