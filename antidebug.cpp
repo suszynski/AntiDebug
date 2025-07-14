@@ -28,6 +28,9 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
+	ADD_ANTI_DEBUG_OPTION("FindWindowByTitle", true, callbackFindWindowByTitle),
+	ADD_ANTI_DEBUG_OPTION("FindWindowByClass", true, callbackFindWindowByClass),
+	ADD_ANTI_DEBUG_OPTION("GetThreadContext", true, callbackGetThreadContext),
 	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation", true, callbackNtQuerySystemInformation_DebuggerInformation)
 };
 
@@ -119,22 +122,32 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOpt
 		option.detected = false;
 }
 
-void AntiDebug::callbackFindWindowByTitleAndClass(AntiDebugOption& option)
+void AntiDebug::callbackFindWindowByTitle(AntiDebugOption& option)
 {
 	static const char* titles[] = { "Cheat Engine", "Process Hacker", "x64dbg", "x32dbg", "IDA Pro", "Ghidra", "Binary Ninja", nullptr };
-	static const char* classes[] = { "OLLYDBG", "WinDbgFrameClass", "ProcessHacker", "PROCMON_WINDOW_CLASS", nullptr };
-
-	bool (*findWindowByTitle)(const char*) = [](const char* substring) -> bool {
-		HWND hwnd = nullptr;
-		char windowText[256];
-		while ((hwnd = FindWindowExA(nullptr, hwnd, nullptr, nullptr)) != nullptr)
-			if (GetWindowTextA(hwnd, windowText, sizeof(windowText)) > 0 && strstr(windowText, substring) != nullptr)
-				return true;
-		return false;
-	};
 
 	for (int i = 0; titles[i]; i++)
-		if (findWindowByTitle(titles[i])) { option.detected = true; return; }
+	{
+		HWND hwnd{};
+		char windowText[256];
+
+		while ((hwnd = FindWindowExA(nullptr, hwnd, nullptr, nullptr)) != nullptr)
+		{
+			if (GetWindowTextA(hwnd, windowText, sizeof(windowText)) > 0 && strstr(windowText, titles[i]) != nullptr)
+			{
+				option.detected = true;
+				return;
+			}
+		}
+
+	}
+
+	option.detected = false;
+}
+
+void AntiDebug::callbackFindWindowByClass(AntiDebugOption& option)
+{
+	static const char* classes[] = { "OLLYDBG", "WinDbgFrameClass", "ProcessHacker", "PROCMON_WINDOW_CLASS", nullptr };
 
 	for (int i = 0; classes[i]; i++)
 		if (FindWindowA(classes[i], nullptr)) { option.detected = true; return; }

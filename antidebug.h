@@ -29,7 +29,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 7>;
+	using AntiDebugOptions = std::array<AntiDebugOption, 10>;
 
 	//
 	// [SECTION] Variables
@@ -49,7 +49,8 @@ namespace AntiDebug
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
-	void callbackFindWindowByTitleAndClass(AntiDebugOption& option);
+	void callbackFindWindowByTitle(AntiDebugOption& option);
+	void callbackFindWindowByClass(AntiDebugOption& option);
 	void callbackGetThreadContext(AntiDebugOption& option);
 	void callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option);
 }
