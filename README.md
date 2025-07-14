@@ -114,7 +114,8 @@ by functions like `DbgPrint`.
 ### `NtGlobalFlag`
 
 `NtGlobalFlag` is a member of the PEB which, when a debugger is attached, has three bit flags set to 1 notably: `0x10: EAP_ENABLE_TAIL_CHECK`, `0x20: HEAP_ENABLE_FREE_CHECK` and `0x40: HEAP_VALIDATE_PARAMETERS`. 
-Bypassing is as simple setting it to any value that does not match any of those flags (0 will work great).
+Bypassing is as simple setting it to any value that does not match any of those flags (0 will work great). Also it seems these flags are only set when a program is launched with a debugger. When it is attached 
+after startup they aren't.
 
 ## Contributing
 
