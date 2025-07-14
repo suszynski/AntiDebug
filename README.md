@@ -42,6 +42,8 @@ AntiDebug::AntiDebugOptions anti_debug_options
 };
 ```
 The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback.
+<br />
+The last step will be to update the length of the `std::array` type alias for options in `antidebug.h`.
 
 ## Documentation
 
@@ -77,6 +79,21 @@ as the heap flags (`ProcessDebugFlags`) and the debug object handle (`ProcessDeb
 ### `GetThreadContext`
 
 `GetThreadContext` is a Windows API function that retrieves the current thread context, including hardware debug registers (Dr0, Dr1, Dr2, Dr3). When hardware breakpoints are set by debuggers, the corresponding debug register contains the breakpoint address. This technique checks if any of these registers contain non-zero values, indicating active hardware breakpoints. Hardware breakpoints are preferred by advanced debuggers since they don't modify process memory. This can be bypassed by clearing debug registers before detection, hooking `GetThreadContext` to return clean registers.
+
+### `NtQuerySystemInformation`
+
+`NtQuerySystemInformation` can be used to get `DebuggerInformation`. It's an undocumented structured made up of three booleans:
+```c++
+typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX 
+{
+	BOOLEAN DebuggerAllowed;
+	BOOLEAN DebuggerEnabled;
+	BOOLEAN DebuggerPresent;
+} SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX, * PSYSTEM_KERNEL_DEBUGGER_INFORMATION_EX;
+```
+`DebuggerAllowed` is true when a kernel debugger is allowed on the system. This will usually become true when the system gets a debugger attached to it. `KernelDebuggerEnabled` will
+be true if the kernel was initialized with debugging enabled. `DebuggerPresent` is true when there currently is a debugger attached to the system.
+
 
 ## Contributing
 
