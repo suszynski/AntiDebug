@@ -1,4 +1,5 @@
 #include "antidebug.h"
+#include "winstructs.h"
 
 //
 // [SECTION] Types and defines
@@ -24,6 +25,7 @@ AntiDebug::AntiDebugOptions anti_debug_options
 {
 	ADD_ANTI_DEBUG_OPTION("IsDebuggerPresent", true, callbackIsDebuggerPresent),
 	ADD_ANTI_DEBUG_OPTION("BeingDebugged", true, callbackBeingDebugged),
+	ADD_ANTI_DEBUG_OPTION("NtGlobalFlag", true, callbackNtGlobalFlag),
 	ADD_ANTI_DEBUG_OPTION("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
@@ -84,9 +86,14 @@ void AntiDebug::callbackIsDebuggerPresent(AntiDebugOption& option)
 
 void AntiDebug::callbackBeingDebugged(AntiDebugOption& option)
 {
-	PEB* p_peb{ NtCurrentTeb()->ProcessEnvironmentBlock }; // You can access the TEB from the file segment, and then the offset to the PEB pointer is 0x30
-
+	static WinStructs::_PEB64* p_peb{ reinterpret_cast<WinStructs::_PEB64*>(NtCurrentTeb()->ProcessEnvironmentBlock) };
 	option.detected = p_peb->BeingDebugged;
+}
+
+void AntiDebug::callbackNtGlobalFlag(AntiDebugOption& option)
+{
+	static WinStructs::_PEB64* p_peb{ reinterpret_cast<WinStructs::_PEB64*>(NtCurrentTeb()->ProcessEnvironmentBlock) };
+	option.detected = p_peb->NtGlobalFlag & (0x10 | 0x20 | 0x40); // 0x10: EAP_ENABLE_TAIL_CHECK, 0x20: HEAP_ENABLE_FREE_CHECK, 0x40: HEAP_VALIDATE_PARAMETERS
 }
 
 void AntiDebug::callbackCheckRemoteDebuggerPresent(AntiDebugOption& option)

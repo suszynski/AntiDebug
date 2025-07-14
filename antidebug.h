@@ -30,7 +30,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 12>;
+	using AntiDebugOptions = std::array<AntiDebugOption, 13>;
 
 	//
 	// [SECTION] Variables
@@ -46,6 +46,7 @@ namespace AntiDebug
 
 	void callbackIsDebuggerPresent(AntiDebugOption& option);
 	void callbackBeingDebugged(AntiDebugOption& option);
+	void callbackNtGlobalFlag(AntiDebugOption& option);
 	void callbackCheckRemoteDebuggerPresent(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);

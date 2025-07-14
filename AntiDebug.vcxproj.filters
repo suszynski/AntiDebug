@@ -141,5 +141,8 @@
     <ClInclude Include="antidebug.h">
       <Filter>antidebug</Filter>
     </ClInclude>
+    <ClInclude Include="winstructs.h">
+      <Filter>antidebug</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

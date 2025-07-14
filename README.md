@@ -104,12 +104,17 @@ be true if the kernel was initialized with debugging enabled. `DebuggerPresent` 
 ### `CloseHandle`
 
 When closing an invalid handle an `EXCEPTION_INVALID_HANDLE (0xC0000008)` will be raised if a debugger is attached. This can then be cought by an `__except` block once the debugger passes
-control back to the process. If no debugger is present no exception is thrown. This detection is disabled by default because it causes an exception.
+control back to the procediss. If no debugger is present no exception is thrown. This detection is disabled by default because it causes an exception.
 
 ### `DbgPrint`
 
 This method will raise the exception `DBG_PRINTEXCEPTION_C (0x40010006)`. If it is handled by the program itself then no debugger is attached. Otherwise one obviously is. It is usually is raised
 by functions like `DbgPrint`.
+
+### `NtGlobalFlag`
+
+`NtGlobalFlag` is a member of the PEB which, when a debugger is attached, has three bit flags set to 1 notably: `0x10: EAP_ENABLE_TAIL_CHECK`, `0x20: HEAP_ENABLE_FREE_CHECK` and `0x40: HEAP_VALIDATE_PARAMETERS`. 
+Bypassing is as simple setting it to any value that does not match any of those flags (0 will work great).
 
 ## Contributing
 

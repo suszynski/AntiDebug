@@ -171,6 +171,7 @@
     <ClInclude Include="dependencies\include\ftxui\util\autoreset.hpp" />
     <ClInclude Include="dependencies\include\ftxui\util\ref.hpp" />
     <ClInclude Include="ui.h" />
+    <ClInclude Include="winstructs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
