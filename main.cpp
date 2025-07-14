@@ -11,12 +11,13 @@ int main()
     SetConsoleTitleA("AntiDebug");
 
     std::thread ui_thread([] { UI::routine(); });
+    auto& options{ AntiDebug::getOptions() };
 
     while (UI::running)
     {
         AntiDebug::options_mutex.lock();
 
-        for (auto& option : AntiDebug::options)
+        for (auto& option : options)
         {
             if (option.enabled)
             {

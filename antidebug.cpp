@@ -1,14 +1,37 @@
 #include "antidebug.h"
 
 //
-// [SECTION] Types
+// [SECTION] Types and defines
 //
 
+#define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback)
+
 using TNtQueryInformationProcess = NTSTATUS(WINAPI*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
+using TNtQuerySystemInformation = NTSTATUS(WINAPI*)(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
+
+//
+// [SECTION] Variables
+//
+
+AntiDebug::AntiDebugOptions anti_debug_options
+{
+	ADD_ANTI_DEBUG_OPTION("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+	ADD_ANTI_DEBUG_OPTION("BeingDebugged", true, callbackBeingDebugged),
+	ADD_ANTI_DEBUG_OPTION("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
+	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
+	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
+	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
+	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation", true, callbackNtQuerySystemInformation_DebuggerInformation)
+};
 
 //
 // [SECTION] Functions (Utils)
 //
+
+AntiDebug::AntiDebugOptions& AntiDebug::getOptions()
+{
+	return anti_debug_options;
+}
 
 TNtQueryInformationProcess getNtQueryInformationProcess()
 {
@@ -19,6 +42,20 @@ TNtQueryInformationProcess getNtQueryInformationProcess()
 		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
 		if (h_ntdll)
 			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(h_ntdll, "NtQueryInformationProcess"));
+	}
+
+	return nt_query;
+}
+
+TNtQuerySystemInformation getNtQuerySystemInformation()
+{
+	static TNtQuerySystemInformation nt_query{};
+
+	if (!nt_query)
+	{
+		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
+		if (h_ntdll)
+			nt_query = reinterpret_cast<TNtQuerySystemInformation>(GetProcAddress(h_ntdll, "NtQuerySystemInformation"));
 	}
 
 	return nt_query;
@@ -98,11 +135,23 @@ void AntiDebug::callbackFindWindowByTitleAndClass(AntiDebugOption& option)
 	option.detected = false;
 }
 
-/* checks for hardware breakpoints */
+// checks for hardware breakpoints
 void AntiDebug::callbackGetThreadContext(AntiDebugOption& option)
 {
 	CONTEXT ctx{};
 	ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
-	option.detected = GetThreadContext(GetCurrentThread(), &ctx) && 
-	                  (ctx.Dr0 || ctx.Dr1 || ctx.Dr2 || ctx.Dr3);
+	option.detected = GetThreadContext(GetCurrentThread(), &ctx) && (ctx.Dr0 || ctx.Dr1 || ctx.Dr2 || ctx.Dr3);
+}
+
+// By kenanwastaken, some turkish kid (unable to make PRs)
+void AntiDebug::callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option)
+{
+	/*
+	SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX debugger_info{};
+
+	ULONG len;
+	getNtQuerySystemInformation()((SYSTEM_INFORMATION_CLASS)0x95, &debugger_info, sizeof(debugger_info), &len);
+
+	// This is when detection descriptions would be useful: https://github.com/haxo-games/AntiDebug/issues/7
+	option.detected = debugger_info.DebuggerAllowed || debugger_info.DebuggerEnabled || debugger_info.DebuggerPresent;*/
 }

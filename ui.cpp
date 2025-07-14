@@ -18,13 +18,14 @@ void UI::routine()
 
     auto screen{ ftxui::ScreenInteractive::Fullscreen() };
     std::vector<Component> checkboxes;
+    auto& options{ AntiDebug::getOptions() };
 
     p_screen = &screen;
 
     /* Lock guard scope */
     {
         std::lock_guard<std::mutex> guard(AntiDebug::options_mutex);
-        for (auto& option : AntiDebug::options)
+        for (auto& option : options)
             checkboxes.push_back(Checkbox(option.name, &option.enabled));
     }
 
@@ -34,12 +35,12 @@ void UI::routine()
         int detections_count{};
         Elements checkbox_elements;
 
-        for (int i{}; i < AntiDebug::options.size(); i++)
+        for (int i{}; i < options.size(); i++)
         {
-            if (AntiDebug::options[i].detected)
+            if (options[i].detected)
                 detections_count++;
 
-            auto status{ AntiDebug::options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
+            auto status{ options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
             checkbox_elements.push_back(
                 hbox({
                     checkboxes[i]->Render(),

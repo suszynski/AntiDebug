@@ -14,11 +14,10 @@ namespace AntiDebug
 	// [SECTION] Types
 	//
 
-	struct AntiDebugOption;
-	using AntiDebugCallback = std::function<void(AntiDebugOption&)>;
-
 	struct AntiDebugOption
 	{
+		using AntiDebugCallback = std::function<void(AntiDebugOption&)>;
+
 		std::string name;
 		bool enabled;
 		bool detected;
@@ -30,9 +29,19 @@ namespace AntiDebug
 		{}
 	};
 
+	using AntiDebugOptions = std::array<AntiDebugOption, 7>;
+
+	//
+	// [SECTION] Variables
+	//
+
+	inline std::mutex options_mutex;
+
 	//
 	// [SECTION] Functions
 	//
+
+	AntiDebugOptions& getOptions();
 
 	void callbackIsDebuggerPresent(AntiDebugOption& option);
 	void callbackBeingDebugged(AntiDebugOption& option);
@@ -40,22 +49,7 @@ namespace AntiDebug
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
-  void callbackFindWindowByTitleAndClass(AntiDebugOption& option);
+	void callbackFindWindowByTitleAndClass(AntiDebugOption& option);
 	void callbackGetThreadContext(AntiDebugOption& option);
-
-	//
-	// [SECTION] Variables (Temp placement)
-	//
-
-	inline std::array<AntiDebugOption, 6> options
-	{
-		AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
-		AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
-		AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
-		AntiDebugOption("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
-		AntiDebugOption("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
-		AntiDebugOption("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
-	};
-
-	inline std::mutex options_mutex;
+	void callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option);
 }
