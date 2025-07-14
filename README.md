@@ -33,17 +33,15 @@ void AntiDebug::callbackMyDetectionName(AntiDebugOption& option)
 Setting `option.detected` to true or false will instantly update the UI once the detection is fully integrated. You don't need to handle anything else than setting this
 value as you wish here. Disable logic and UI events are already handled in the `main` function.
 <br />
-Now to integrate the detection head into `main.cpp`, locate `options` inside of the `main` function, and add a new member in its initializer list like so:
+Now to integrate the detection, locate `options` inside of the `antidebug.h` and add a new member in its initializer list like so:
 ```c++
-AntiDebugOptions options{
-	AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
-	AntiDebugOption("MyDetectionName", true, callbackMyDetectionName), // <- Example integration
+AntiDebug::AntiDebugOptions anti_debug_options
+{
+	ADD_ANTI_DEBUG_OPTION("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+	ADD_ANTI_DEBUG_OPTION("MyDetectionName", true, callbackMyDetectionName), // <- Example integration
 };
 ```
 The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback.
-<br />
-The last step will be to update the `OPTIONS_COUNT` const expression inside `antidebug.h` to the new list size. I'm aware that this last step is not ideal, but that's the
-magic fuckery I figured out for the FTXUI checkboxes atomic state logic to be handled properly.
 
 ## Documentation
 
