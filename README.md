@@ -101,6 +101,11 @@ typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX
 `DebuggerAllowed` is true when a kernel debugger is allowed on the system. This will usually become true when the system gets a debugger attached to it. `KernelDebuggerEnabled` will
 be true if the kernel was initialized with debugging enabled. `DebuggerPresent` is true when there currently is a debugger attached to the system.
 
+### `CloseHandle`
+
+When closing an invalid handle an `EXCEPTION_INVALID_HANDLE (0xC0000008)` will be raised if a debugger is attached. This can then be cought by an `__except` block once the debugger passes
+control back to the process. If no debugger is present no exception is thrown. This detection is disabled by default because it causes an exception.
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but

@@ -5,6 +5,7 @@
 #include <string>
 
 #include <ftxui/component/component.hpp>
+#define NOMINMAX
 #include <windows.h>
 #include <winternl.h>
 
@@ -29,7 +30,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 10>;
+	using AntiDebugOptions = std::array<AntiDebugOption, 11>;
 
 	//
 	// [SECTION] Variables
@@ -53,4 +54,5 @@ namespace AntiDebug
 	void callbackFindWindowByClass(AntiDebugOption& option);
 	void callbackGetThreadContext(AntiDebugOption& option);
 	void callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option);
+	void callbackCloseHandle(AntiDebugOption& option);
 }
