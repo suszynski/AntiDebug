@@ -41,6 +41,8 @@ namespace AntiDebug
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
+  void callbackFindWindowByTitleAndClass(AntiDebugOption& option);
+	void callbackGetThreadContext(AntiDebugOption& option);
 
 	//
 	// [SECTION] Variables (Temp placement)
