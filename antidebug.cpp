@@ -6,9 +6,11 @@
 //
 
 #define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback)
+#define ProcessDebugHandle 30
 
-using TNtQueryInformationProcess = NTSTATUS(WINAPI*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
-using TNtQuerySystemInformation = NTSTATUS(WINAPI*)(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
+using TNtQueryInformationProcess = NTSTATUS(__stdcall*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
+using TNtQuerySystemInformation = NTSTATUS(__stdcall*)(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
+using TNtQueryObject = NTSTATUS(__stdcall*)(HANDLE, OBJECT_INFORMATION_CLASS, PVOID, ULONG, PULONG);
 
 typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX 
 {
@@ -75,6 +77,20 @@ TNtQuerySystemInformation getNtQuerySystemInformation()
 	return nt_query;
 }
 
+TNtQueryObject getNtQueryObject()
+{
+	static TNtQueryObject nt_query{};
+
+	if (!nt_query)
+	{
+		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
+		if (h_ntdll)
+			nt_query = reinterpret_cast<TNtQueryObject>(GetProcAddress(h_ntdll, "NtQueryObject"));
+	}
+
+	return nt_query;
+}
+
 //
 // [SECTION] Functions (Callbacks)
 //
@@ -125,7 +141,7 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOpti
 void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option)
 {
 	HANDLE debug_object{};
-	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), 30, &debug_object, sizeof(debug_object), nullptr)) && debug_object != 0)
+	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), ProcessDebugHandle, &debug_object, sizeof(debug_object), nullptr)) && debug_object != 0)
 		option.detected = true;
 	else
 		option.detected = false;
@@ -168,7 +184,7 @@ void AntiDebug::callbackGetThreadContext(AntiDebugOption& option)
 {
 	CONTEXT ctx{};
 	ctx.ContextFlags = CONTEXT_DEBUG_REGISTERS;
-	option.detected = GetThreadContext(GetCurrentThread(), &ctx) && (ctx.Dr0 || ctx.Dr1 || ctx.Dr2 || ctx.Dr3);
+	option.detected = (ctx.Dr0 != 0) || (ctx.Dr1 != 0) || (ctx.Dr2 != 0) || (ctx.Dr3 != 0) || (ctx.Dr6 != 0) || (ctx.Dr7 & 0xFF);
 }
 
 // By kenanwastaken, some turkish kid (unable to make PRs)
