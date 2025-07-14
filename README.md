@@ -118,4 +118,4 @@ and [anti-debug.checkpoint.com](https://anti-debug.checkpoint.com/) for document
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License with some specifications - see the [LICENSE](LICENSE) file for details.
