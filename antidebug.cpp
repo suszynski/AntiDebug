@@ -31,7 +31,7 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("FindWindowByTitle", true, callbackFindWindowByTitle),
 	ADD_ANTI_DEBUG_OPTION("FindWindowByClass", true, callbackFindWindowByClass),
 	ADD_ANTI_DEBUG_OPTION("GetThreadContext", true, callbackGetThreadContext),
-	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation", true, callbackNtQuerySystemInformation_DebuggerInformation)
+	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation_DebuggerInformation", true, callbackNtQuerySystemInformation_DebuggerInformation)
 };
 
 //
