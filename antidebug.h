@@ -1,7 +1,7 @@
 #pragma once
 
 #include <array>
-#include <atomic>
+#include <mutex>
 #include <string>
 
 #include <ftxui/component/component.hpp>
@@ -10,12 +10,6 @@
 
 namespace AntiDebug
 {
-	//
-	// [SECTION] Defines
-	//
-
-	constexpr int OPTIONS_COUNT{ 6 };
-
 	//
 	// [SECTION] Types
 	//
@@ -26,18 +20,16 @@ namespace AntiDebug
 	struct AntiDebugOption
 	{
 		std::string name;
-		std::atomic<bool> enabled{ true };
-		std::atomic<bool> detected{ false };
-		bool was_enabled{ false };
+		bool enabled;
+		bool detected;
+		bool was_enabled;
 		AntiDebugCallback callback;
 		ftxui::Component* p_button;
 
 		AntiDebugOption(const std::string& n, bool e, AntiDebugCallback callback)
-			: name(n), enabled(e), callback(callback), detected(false), p_button(nullptr)
+			: name(n), enabled(e), callback(callback), detected(false), p_button(nullptr), was_enabled(e)
 		{}
 	};
-
-	using AntiDebugOptions = std::array<AntiDebugOption, OPTIONS_COUNT>;
 
 	//
 	// [SECTION] Functions
@@ -49,4 +41,20 @@ namespace AntiDebug
 	void callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option);
 	void callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option);
+
+	//
+	// [SECTION] Variables (Temp placement)
+	//
+
+	inline std::array<AntiDebugOption, 6> options
+	{
+		AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
+		AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
+		AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
+		AntiDebugOption("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
+		AntiDebugOption("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
+		AntiDebugOption("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
+	};
+
+	inline std::mutex options_mutex;
 }

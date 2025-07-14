@@ -1,3 +1,5 @@
+#include <mutex>
+
 #include "ui.h"
 
 //
@@ -10,41 +12,40 @@ static auto screen{ ftxui::ScreenInteractive::Fullscreen() };
 // [SECTION] Functions
 //
 
-void UI::routine(AntiDebug::AntiDebugOptions& options)
+void UI::routine()
 {
     using namespace ftxui;
 
-    std::array<bool, AntiDebug::OPTIONS_COUNT> checkbox_states;
     std::vector<Component> checkboxes;
 
-    for (int i{}; i < options.size(); i++)
+    /* Lock guard scope */
     {
-        checkbox_states[i] = options[i].enabled.load();
-
-        CheckboxOption option;
-        option.label = options[i].name;
-        option.checked = &checkbox_states[i];
-        checkboxes.push_back(Checkbox(option));
+        std::lock_guard<std::mutex> guard(AntiDebug::options_mutex);
+        for (auto& option : AntiDebug::options)
+            checkboxes.push_back(Checkbox(option.name, &option.enabled));
     }
 
     auto checkbox_container{ Container::Vertical(checkboxes) };
     auto component = Renderer(checkbox_container, [&] {
         int detections_count{};
         Elements checkbox_elements;
-        for (int i{}; i < options.size(); i++)
+
+        /* Lock guard scope */
         {
-            options[i].enabled.store(checkbox_states[i]);
+            std::lock_guard<std::mutex> guard(AntiDebug::options_mutex);
+            for (int i{}; i < AntiDebug::options.size(); i++)
+            {
+                if (AntiDebug::options[i].detected)
+                    detections_count++;
 
-            if (options[i].detected)
-                detections_count++;
-
-            auto status{ options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
-            checkbox_elements.push_back(
-                hbox({
-                    checkboxes[i]->Render(),
-                    status
-                })
-            );
+                auto status{ AntiDebug::options[i].detected ? text(" [DETECTED]") | color(Color::Red) : text("") };
+                checkbox_elements.push_back(
+                    hbox({
+                        checkboxes[i]->Render(),
+                        status
+                        })
+                );
+            }
         }
 
         bool is_detected{ detections_count > 0 };

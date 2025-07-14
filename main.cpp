@@ -8,24 +8,15 @@
 
 int main()
 {
-    using namespace AntiDebug;
-
-    AntiDebugOptions options{
-        AntiDebugOption("IsDebuggerPresent", true, callbackIsDebuggerPresent),
-        AntiDebugOption("BeingDebugged", true, callbackBeingDebugged),
-        AntiDebugOption("CheckRemoteDebuggerPresent", true, callbackCheckRemoteDebuggerPresent),
-        AntiDebugOption("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
-        AntiDebugOption("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
-        AntiDebugOption("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
-    };
-
     SetConsoleTitleA("AntiDebug");
 
-    std::thread ui_thread([&options] { UI::routine(options); });
+    std::thread ui_thread([] { UI::routine(); });
 
     while (UI::running)
     {
-        for (auto& option : options)
+        AntiDebug::options_mutex.lock();
+
+        for (auto& option : AntiDebug::options)
         {
             if (option.enabled)
             {
@@ -51,10 +42,12 @@ int main()
             }
         }
 
+        AntiDebug::options_mutex.unlock();
         std::this_thread::sleep_for(std::chrono::milliseconds(25));
     }
 
-    ui_thread.join();
+    if (ui_thread.joinable())
+        ui_thread.join();
 
 	return 0;
 }
