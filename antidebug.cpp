@@ -32,7 +32,8 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("FindWindowByClass", true, callbackFindWindowByClass),
 	ADD_ANTI_DEBUG_OPTION("GetThreadContext", true, callbackGetThreadContext),
 	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation_DebuggerInformation", true, callbackNtQuerySystemInformation_DebuggerInformation),
-	ADD_ANTI_DEBUG_OPTION("CloseHandle", false, callbackCloseHandle)
+	ADD_ANTI_DEBUG_OPTION("CloseHandle", false, callbackCloseHandle),
+	ADD_ANTI_DEBUG_OPTION("DbgPrint", true, callbackDbgPrint),
 };
 
 //
@@ -188,3 +189,15 @@ void AntiDebug::callbackCloseHandle(AntiDebugOption& option)
 	}
 }
 
+void AntiDebug::callbackDbgPrint(AntiDebugOption& option)
+{
+	__try
+	{
+		RaiseException(DBG_PRINTEXCEPTION_C, 0, 0, 0);
+		option.detected = true;
+	}
+	__except (GetExceptionCode() == DBG_PRINTEXCEPTION_C)
+	{
+		option.detected = false;
+	}
+}

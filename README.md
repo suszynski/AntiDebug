@@ -106,6 +106,11 @@ be true if the kernel was initialized with debugging enabled. `DebuggerPresent` 
 When closing an invalid handle an `EXCEPTION_INVALID_HANDLE (0xC0000008)` will be raised if a debugger is attached. This can then be cought by an `__except` block once the debugger passes
 control back to the process. If no debugger is present no exception is thrown. This detection is disabled by default because it causes an exception.
 
+### `DbgPrint`
+
+This method will raise the exception `DBG_PRINTEXCEPTION_C (0x40010006)`. If it is handled by the program itself then no debugger is attached. Otherwise one obviously is. It is usually is raised
+by functions like `DbgPrint`.
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but

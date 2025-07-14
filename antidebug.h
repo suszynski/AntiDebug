@@ -30,7 +30,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 11>;
+	using AntiDebugOptions = std::array<AntiDebugOption, 12>;
 
 	//
 	// [SECTION] Variables
@@ -55,4 +55,5 @@ namespace AntiDebug
 	void callbackGetThreadContext(AntiDebugOption& option);
 	void callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option);
 	void callbackCloseHandle(AntiDebugOption& option);
+	void callbackDbgPrint(AntiDebugOption& option);
 }
