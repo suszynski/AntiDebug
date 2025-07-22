@@ -228,7 +228,12 @@ void AntiDebug::callbackDbgPrint(AntiDebugOption& option)
 
 void AntiDebug::callbackEnumDeviceDrivers(AntiDebugOption& option)
 {
-	static const char* driver_names[] = { "dbk64.sys" };
+	static const char* driver_names[] = 
+	{ 
+		"capcom.sys",     // Vulnerable signed driver historically abused to manual map drivers
+		"dbk64.sys",      // DBVM driver
+		"procexp152.sys", // Process explorer's driver
+	};
 
 	LPVOID drivers[1024];
 	DWORD cb_required;
