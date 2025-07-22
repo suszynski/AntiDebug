@@ -117,6 +117,10 @@ by functions like `DbgPrint`.
 Bypassing is as simple setting it to any value that does not match any of those flags (0 will work great). Also it seems these flags are only set when a program is launched with a debugger. When it is attached 
 after startup they aren't.
 
+### `EnumDeviceDrivers`
+
+`EnumDeviceDrivers` just enumerates the different loaded device drivers. Debuggers can be detected by looking for signed debugger-related kernel drivers such as `dbk64.sys` used for DBVM.
+
 ## Contributing
 
 This project is free and open source and will remain so forever. You are welcome to contribute. Simply make a pull request for whatever it is you would like to add, but
