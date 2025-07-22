@@ -38,6 +38,7 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation_DebuggerInformation", true, callbackNtQuerySystemInformation_DebuggerInformation),
 	ADD_ANTI_DEBUG_OPTION("CloseHandle", false, callbackCloseHandle),
 	ADD_ANTI_DEBUG_OPTION("DbgPrint", true, callbackDbgPrint),
+	ADD_ANTI_DEBUG_OPTION("EnumDeviceDrivers", false, callbackEnumDeviceDrivers)
 };
 
 //
@@ -173,7 +174,7 @@ void AntiDebug::callbackFindWindowByClass(AntiDebugOption& option)
 {
 	static const char* classes[] = { "OLLYDBG", "WinDbgFrameClass", "ProcessHacker", "PROCMON_WINDOW_CLASS", nullptr };
 
-	for (int i = 0; classes[i]; i++)
+	for (int i{}; classes[i]; i++)
 		if (FindWindowA(classes[i], nullptr)) { option.detected = true; return; }
 
 	option.detected = false;
@@ -223,4 +224,36 @@ void AntiDebug::callbackDbgPrint(AntiDebugOption& option)
 	{
 		option.detected = false;
 	}
+}
+
+void AntiDebug::callbackEnumDeviceDrivers(AntiDebugOption& option)
+{
+	static const char* driver_names[] = { "dbk64.sys" };
+
+	LPVOID drivers[1024];
+	DWORD cb_required;
+
+	if (EnumDeviceDrivers(drivers, sizeof(drivers), &cb_required)) 
+	{
+		int driver_count = cb_required / sizeof(LPVOID);
+
+		for (int i{}; i < driver_count; i++) 
+		{
+			char driver_name[MAX_PATH];
+
+			if (GetDeviceDriverBaseNameA(drivers[i], driver_name, sizeof(driver_name))) 
+			{
+				for (int i{}; driver_names[i]; i++)
+				{
+					if (strcmp(driver_name, driver_names[i]) == 0) 
+					{
+						option.detected = true;
+						return;
+					}
+				}
+			}
+		}
+	} // May the lord protect us from such sinful brackets
+	
+	option.detected = false;
 }

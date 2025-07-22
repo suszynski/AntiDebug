@@ -34,6 +34,9 @@
     <Filter Include="antidebug">
       <UniqueIdentifier>{69ff0b6a-d03b-4191-a3da-ea8ab8b2a099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{6efb5076-de6b-4447-8ace-e49bb6bb9d41}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dependencies\include\ftxui\component\animation.hpp">
@@ -142,7 +145,7 @@
       <Filter>antidebug</Filter>
     </ClInclude>
     <ClInclude Include="winstructs.h">
-      <Filter>antidebug</Filter>
+      <Filter>utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@
 #define NOMINMAX
 #include <windows.h>
 #include <winternl.h>
+#include <psapi.h>
 
 namespace AntiDebug
 {
@@ -30,7 +31,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 13>;
+	using AntiDebugOptions = std::array<AntiDebugOption, 14>;
 
 	//
 	// [SECTION] Variables
@@ -57,4 +58,5 @@ namespace AntiDebug
 	void callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option);
 	void callbackCloseHandle(AntiDebugOption& option);
 	void callbackDbgPrint(AntiDebugOption& option);
+	void callbackEnumDeviceDrivers(AntiDebugOption& option);
 }
