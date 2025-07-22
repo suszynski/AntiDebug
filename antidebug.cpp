@@ -152,7 +152,7 @@ void AntiDebug::callbackFindWindowByTitle(AntiDebugOption& option)
 {
 	static const char* titles[] = { "Cheat Engine", "Process Hacker", "x64dbg", "x32dbg", "IDA Pro", "Ghidra", "Binary Ninja", nullptr };
 
-	for (int i = 0; titles[i]; i++)
+	for (int i{}; titles[i]; i++)
 	{
 		HWND hwnd{};
 		char windowText[256];
