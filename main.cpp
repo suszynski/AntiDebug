@@ -21,6 +21,18 @@ int main()
         {
             if (option.enabled)
             {
+                /* Handle delay for options with it */
+                if (option.delay != std::chrono::milliseconds(0))
+                {
+                    auto now{ std::chrono::steady_clock::now() };
+                    auto time_elapsed{ std::chrono::duration_cast<std::chrono::milliseconds>(now - option.time_start) };
+
+                    if (time_elapsed < option.delay)
+                        continue;
+
+                    option.time_start = now;
+                }
+
                 bool was_detected{ option.detected };
                 option.callback(option);
                 bool is_detected{ option.detected };

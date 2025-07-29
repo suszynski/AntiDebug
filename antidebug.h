@@ -24,10 +24,13 @@ namespace AntiDebug
 		bool enabled;
 		bool detected;
 		bool was_enabled;
+		std::chrono::milliseconds delay;
+		std::chrono::time_point<std::chrono::steady_clock> time_start{ std::chrono::steady_clock::now() };
+		std::chrono::milliseconds elapsed_time;
 		AntiDebugCallback callback;
 
-		AntiDebugOption(const std::string_view& n, bool e, AntiDebugCallback callback)
-			: name(n), enabled(e), callback(callback), detected(false), was_enabled(e)
+		AntiDebugOption(const std::string_view& n, bool e, AntiDebugCallback c, std::chrono::milliseconds delay = std::chrono::milliseconds(0))
+			: name(n), enabled(e), callback(c), detected(false), was_enabled(e), delay(delay)
 		{}
 	};
 

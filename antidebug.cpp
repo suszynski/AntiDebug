@@ -5,7 +5,7 @@
 // [SECTION] Types and defines
 //
 
-#define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback)
+#define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback, delay) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback, std::chrono::milliseconds(delay))
 #define ProcessDebugHandle 30
 
 using TNtQueryInformationProcess = NTSTATUS(__stdcall*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
@@ -32,13 +32,13 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugPort", true, callbackNtQueryInformationProcessProcessDebugPort),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugFlags", true, callbackNtQueryInformationProcessProcessDebugFlags),
 	ADD_ANTI_DEBUG_OPTION("NtQueryInformationProcess_ProcessDebugHandle", true, callbackNtQueryInformationProcessProcessDebugHandle),
-	ADD_ANTI_DEBUG_OPTION("FindWindowByTitle", true, callbackFindWindowByTitle),
-	ADD_ANTI_DEBUG_OPTION("FindWindowByClass", true, callbackFindWindowByClass),
+	ADD_ANTI_DEBUG_OPTION("FindWindowByTitle", true, callbackFindWindowByTitle, 250),
+	ADD_ANTI_DEBUG_OPTION("FindWindowByClass", true, callbackFindWindowByClass, 250),
 	ADD_ANTI_DEBUG_OPTION("GetThreadContext", true, callbackGetThreadContext),
 	ADD_ANTI_DEBUG_OPTION("NtQuerySystemInformation_DebuggerInformation", true, callbackNtQuerySystemInformation_DebuggerInformation),
 	ADD_ANTI_DEBUG_OPTION("CloseHandle", false, callbackCloseHandle),
 	ADD_ANTI_DEBUG_OPTION("DbgPrint", true, callbackDbgPrint),
-	ADD_ANTI_DEBUG_OPTION("EnumDeviceDrivers", false, callbackEnumDeviceDrivers)
+	ADD_ANTI_DEBUG_OPTION("EnumDeviceDrivers", false, callbackEnumDeviceDrivers, 250)
 };
 
 //
