@@ -4,6 +4,44 @@
 
 namespace WinStructs
 {
+    typedef enum _PROCESSINFOCLASS 
+    {
+        ProcessBasicInformation = 0,
+        ProcessQuotaLimits = 1,
+        ProcessIoCounters = 2,
+        ProcessVmCounters = 3,
+        ProcessTimes = 4,
+        ProcessBasePriority = 5,
+        ProcessRaisePriority = 6,
+        ProcessDebugPort = 7,
+        ProcessExceptionPort = 8,
+        ProcessAccessToken = 9,
+        ProcessLdtInformation = 10,
+        ProcessLdtSize = 11,
+        ProcessDefaultHardErrorMode = 12,
+        ProcessIoPortHandlers = 13,
+        ProcessPooledUsageAndLimits = 14,
+        ProcessWorkingSetWatch = 15,
+        ProcessUserModeIOPL = 16,
+        ProcessEnableAlignmentFaultFixup = 17,
+        ProcessPriorityClass = 18,
+        ProcessWx86Information = 19,
+        ProcessHandleCount = 20,
+        ProcessAffinityMask = 21,
+        ProcessPriorityBoost = 22,
+        ProcessDeviceMap = 23,
+        ProcessSessionInformation = 24,
+        ProcessForegroundInformation = 25,
+        ProcessWow64Information = 26,
+        ProcessImageFileName = 27,
+        ProcessLUIDDeviceMapsEnabled = 28,
+        ProcessBreakOnTermination = 29,
+        ProcessDebugObjectHandle = 30,
+        ProcessDebugFlags = 31,
+        ProcessHandleTracing = 32,
+        MaxProcessInfoClass
+    } PROCESSINFOCLASS;
+
     // Source: https://www.vergiliusproject.com/kernels/x64/windows-11/24h2/_STRING64
     struct _STRING64
     {

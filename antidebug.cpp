@@ -6,11 +6,6 @@
 //
 
 #define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback, delay) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback, std::chrono::milliseconds(delay))
-#define ProcessDebugHandle 30
-
-using TNtQueryInformationProcess = NTSTATUS(__stdcall*)(HANDLE ProcessHandle, DWORD ProcessInformationClass, PVOID ProcessInformation, ULONG ProcessInformationLength, PULONG ReturnLength);
-using TNtQuerySystemInformation = NTSTATUS(__stdcall*)(SYSTEM_INFORMATION_CLASS SystemInformationClass, PVOID SystemInformation, ULONG SystemInformationLength, PULONG ReturnLength);
-using TNtQueryObject = NTSTATUS(__stdcall*)(HANDLE, OBJECT_INFORMATION_CLASS, PVOID, ULONG, PULONG);
 
 typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX 
 {
@@ -50,48 +45,6 @@ AntiDebug::AntiDebugOptions& AntiDebug::getOptions()
 	return anti_debug_options;
 }
 
-TNtQueryInformationProcess getNtQueryInformationProcess()
-{
-	static TNtQueryInformationProcess nt_query{};
-
-	if (!nt_query)
-	{
-		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
-		if (h_ntdll)
-			nt_query = reinterpret_cast<TNtQueryInformationProcess>(GetProcAddress(h_ntdll, "NtQueryInformationProcess"));
-	}
-
-	return nt_query;
-}
-
-TNtQuerySystemInformation getNtQuerySystemInformation()
-{
-	static TNtQuerySystemInformation nt_query{};
-
-	if (!nt_query)
-	{
-		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
-		if (h_ntdll)
-			nt_query = reinterpret_cast<TNtQuerySystemInformation>(GetProcAddress(h_ntdll, "NtQuerySystemInformation"));
-	}
-
-	return nt_query;
-}
-
-TNtQueryObject getNtQueryObject()
-{
-	static TNtQueryObject nt_query{};
-
-	if (!nt_query)
-	{
-		HMODULE h_ntdll{ GetModuleHandleA("ntdll.dll") };
-		if (h_ntdll)
-			nt_query = reinterpret_cast<TNtQueryObject>(GetProcAddress(h_ntdll, "NtQueryObject"));
-	}
-
-	return nt_query;
-}
-
 //
 // [SECTION] Functions (Callbacks)
 //
@@ -124,7 +77,7 @@ void AntiDebug::callbackCheckRemoteDebuggerPresent(AntiDebugOption& option)
 void AntiDebug::callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOption& option)
 {
 	DWORD_PTR debug_port{};
-	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), ProcessDebugPort, &debug_port, sizeof(debug_port), nullptr)) && debug_port != 0)
+	if (NT_SUCCESS(NtQueryInformationProcess(GetCurrentProcess(), ProcessDebugPort, &debug_port, sizeof(debug_port), nullptr)) && debug_port != 0)
 		option.detected = true;
 	else
 		option.detected = false;
@@ -133,7 +86,7 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugPort(AntiDebugOptio
 void AntiDebug::callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOption& option)
 {
 	DWORD debug_flags{};
-	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), 31, &debug_flags, sizeof(debug_flags), nullptr)) && debug_flags == 0)
+	if (NT_SUCCESS(NtQueryInformationProcess(GetCurrentProcess(), static_cast<_PROCESSINFOCLASS>(WinStructs::ProcessDebugFlags), &debug_flags, sizeof(debug_flags), nullptr)) && debug_flags == 0)
 		option.detected = true;
 	else
 		option.detected = false;
@@ -142,7 +95,7 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugFlags(AntiDebugOpti
 void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOption& option)
 {
 	HANDLE debug_object{};
-	if (NT_SUCCESS(getNtQueryInformationProcess()(GetCurrentProcess(), ProcessDebugHandle, &debug_object, sizeof(debug_object), nullptr)) && debug_object != 0)
+	if (NT_SUCCESS(NtQueryInformationProcess(GetCurrentProcess(), static_cast<_PROCESSINFOCLASS>(WinStructs::ProcessDebugObjectHandle), &debug_object, sizeof(debug_object), nullptr)) && debug_object != 0)
 		option.detected = true;
 	else
 		option.detected = false;
@@ -194,7 +147,7 @@ void AntiDebug::callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOp
 	SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX debugger_info{};
 
 	ULONG len;
-	getNtQuerySystemInformation()((SYSTEM_INFORMATION_CLASS)0x95, &debugger_info, sizeof(debugger_info), &len);
+	NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)0x95, &debugger_info, sizeof(debugger_info), &len);
 
 	// This is when detection descriptions would be useful: https://github.com/haxo-games/AntiDebug/issues/7
 	option.detected = debugger_info.DebuggerEnabled || debugger_info.DebuggerPresent;

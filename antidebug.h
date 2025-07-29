@@ -1,6 +1,6 @@
 #pragma once
 
-#include <array>
+#include <vector>
 #include <mutex>
 #include <string>
 
@@ -34,7 +34,7 @@ namespace AntiDebug
 		{}
 	};
 
-	using AntiDebugOptions = std::array<AntiDebugOption, 14>;
+	using AntiDebugOptions = std::vector<AntiDebugOption>;
 
 	//
 	// [SECTION] Variables
