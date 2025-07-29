@@ -42,8 +42,6 @@ AntiDebug::AntiDebugOptions anti_debug_options
 };
 ```
 The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback.
-<br />
-The last step will be to update the length of the `std::array` type alias for options in `antidebug.h`.
 
 ## Documentation
 
