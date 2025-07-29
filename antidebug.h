@@ -26,7 +26,7 @@ namespace AntiDebug
 		bool was_enabled;
 		AntiDebugCallback callback;
 
-		AntiDebugOption(const std::string& n, bool e, AntiDebugCallback callback)
+		AntiDebugOption(const std::string_view& n, bool e, AntiDebugCallback callback)
 			: name(n), enabled(e), callback(callback), detected(false), was_enabled(e)
 		{}
 	};

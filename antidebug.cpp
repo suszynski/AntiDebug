@@ -150,7 +150,7 @@ void AntiDebug::callbackNtQueryInformationProcessProcessDebugHandle(AntiDebugOpt
 
 void AntiDebug::callbackFindWindowByTitle(AntiDebugOption& option)
 {
-	static const char* titles[] = { "Cheat Engine", "Process Hacker", "x64dbg", "x32dbg", "IDA Pro", "Ghidra", "Binary Ninja", nullptr };
+	static const char* titles[] = { "Cheat Engine", "Process Hacker", "x64dbg", "x32dbg", "IDA Pro", "IDA Free", "WinDbg", "Ghidra", "Binary Ninja", "System Informer", nullptr};
 
 	for (int i{}; titles[i]; i++)
 	{
