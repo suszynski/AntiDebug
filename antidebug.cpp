@@ -323,7 +323,7 @@ void AntiDebug::callbackIsWindowsFunctionBreakpointed(AntiDebugOption& option) {
 
 	}
 
-	HMODULE ntdllAddress{ GetModuleHandleA("NTDLL.DLL") };
+	HMODULE ntdllAddress{ GetModuleHandleA("ntdll.dll") };
 
 	for (int i{}; commonNtDllFunctions[i]; i++) {
 
