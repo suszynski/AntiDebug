@@ -41,7 +41,8 @@ AntiDebug::AntiDebugOptions anti_debug_options
 	ADD_ANTI_DEBUG_OPTION("MyDetectionName", true, callbackMyDetectionName), // <- Example integration
 };
 ```
-The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback.
+The first argument is the title to be displayed in the UI, the second sets if the detection should be enabled or not by default and the third is your callback. You can now 
+also specify a fourth argument for the delay in milliseconds to wait after executing each callback in case your callback is somewhat resource-intensive.
 
 ## Documentation
 
