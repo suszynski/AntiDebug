@@ -7,13 +7,6 @@
 
 #define ADD_ANTI_DEBUG_OPTION(name, default_enabled, callback, delay) AntiDebug::AntiDebugOption(name, default_enabled, AntiDebug::callback, std::chrono::milliseconds(delay))
 
-typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX 
-{
-	BOOLEAN DebuggerAllowed;
-	BOOLEAN DebuggerEnabled;
-	BOOLEAN DebuggerPresent;
-} SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX, * PSYSTEM_KERNEL_DEBUGGER_INFORMATION_EX;
-
 //
 // [SECTION] Variables
 //
@@ -144,7 +137,7 @@ void AntiDebug::callbackGetThreadContext(AntiDebugOption& option)
 // By kenanwastaken, some turkish kid (unable to make PRs)
 void AntiDebug::callbackNtQuerySystemInformation_DebuggerInformation(AntiDebugOption& option)
 {
-	SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX debugger_info{};
+	WinStructs::SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX debugger_info{};
 
 	ULONG len;
 	NtQuerySystemInformation((SYSTEM_INFORMATION_CLASS)0x95, &debugger_info, sizeof(debugger_info), &len);

@@ -42,6 +42,13 @@ namespace WinStructs
         MaxProcessInfoClass
     } PROCESSINFOCLASS;
 
+    typedef struct _SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX
+    {
+        BOOLEAN DebuggerAllowed;
+        BOOLEAN DebuggerEnabled;
+        BOOLEAN DebuggerPresent;
+    } SYSTEM_KERNEL_DEBUGGER_INFORMATION_EX, * PSYSTEM_KERNEL_DEBUGGER_INFORMATION_EX;
+
     // Source: https://www.vergiliusproject.com/kernels/x64/windows-11/24h2/_STRING64
     struct _STRING64
     {
